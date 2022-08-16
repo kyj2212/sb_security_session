@@ -1,7 +1,7 @@
-package com.example.shadow.controller;
+package com.example.shadow.domain.member.controller;
 
 import com.example.shadow.web.MemberCreateForm;
-import com.example.shadow.service.MemberService;
+import com.example.shadow.domain.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;

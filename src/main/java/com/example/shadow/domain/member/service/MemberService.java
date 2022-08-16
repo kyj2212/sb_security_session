@@ -1,7 +1,7 @@
-package com.example.shadow.service;
+package com.example.shadow.domain.member.service;
 
-import com.example.shadow.domain.member.Member;
-import com.example.shadow.repository.MemberRepository;
+import com.example.shadow.domain.member.entity.Member;
+import com.example.shadow.domain.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
