@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -40,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean
+    @Override
     public void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
@@ -67,6 +68,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.authenticationProvider(customAuthenticationProvider)
+//            .authenticationProvider(daoAuthenticationProvider());
+        auth.userDetailsService(memberSecurityService).passwordEncoder(passwordEncoder());
+    }
+
     @Bean
     public AuthenticationSuccessHandler customSuccessHandler(){
         return new CustomSuccessHandler("/");
@@ -81,8 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+
+
+
 }
