@@ -23,6 +23,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_WHITELIST_STATIC = {"/static/css/**", "/static/js/**", "/assert/*.ico"};
+    private static final String[] AUTH_ADMIN_LIST = {"/admin"};
+    private static final String[] AUTH_ALL_LIST = {"/test"};
+    private static final String[] AUTH_AUTHENTICATED_LIST = {"/shadows/**", "/flowcharts/**", "/main/**"};
 
     private final MemberSecurityService memberSecurityService;
     private final AuthenticationFailureHandler customFailureHandler;
@@ -36,24 +39,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/**").permitAll()
-                .and()
-                    .csrf().ignoringAntMatchers("/h2-console/**")
-                .and()
-                    .headers()
-                    .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
-                .and()
-                    .formLogin()
-                    .loginPage("/member/login")
-                    .defaultSuccessUrl("/")
-                .and()
-                    .logout()
-                    .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                    .logoutSuccessUrl("/")
-                    .invalidateHttpSession(true)
+    public void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers(AUTH_ADMIN_LIST).hasRole("ROLE_ADMIN")
+                .antMatchers(AUTH_ALL_LIST).authenticated()
+                .antMatchers(AUTH_AUTHENTICATED_LIST).permitAll()
+            .and()
+                .csrf().ignoringAntMatchers("/h2-console/**")
+            .and()
+                .headers()
+                .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
+            .and()
+                .formLogin()
+                .loginPage("/member/login")
+                .defaultSuccessUrl("/")
+            .and()
+                .logout()
+                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                .logoutSuccessUrl("/")
+                .invalidateHttpSession(true)
         ;
-        return http.build();
+
     }
     @Bean
     public PasswordEncoder passwordEncoder() {
