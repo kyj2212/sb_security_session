@@ -32,8 +32,6 @@ public class SecurityConfig {
                     .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 .and()
                     .formLogin()
-                    .usernameParameter("memberId")
-                    .passwordParameter("memberPwd")
                     .loginPage("/member/login")
                     .defaultSuccessUrl("/")
                 .and()
