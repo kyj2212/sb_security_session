@@ -23,7 +23,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String[] AUTH_WHITELIST_STATIC = {"/static/css/**", "/static/js/**", "/assert/*.ico"};
+    private static final String[] AUTH_WHITELIST_STATIC = {"/css/**", "/js/**", "/assert/*.ico"};
     private static final String[] AUTH_ADMIN_LIST = {"/admin"};
     private static final String[] AUTH_ALL_LIST = {"/test"};
     private static final String[] AUTH_AUTHENTICATED_LIST = {"/shadows/**", "/flowcharts/**", "/main/**"};
