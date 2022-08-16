@@ -1,5 +1,8 @@
-package com.example.shadow.member;
+package com.example.shadow.service;
 
+import com.example.shadow.domain.member.Member;
+import com.example.shadow.domain.member.MemberRole;
+import com.example.shadow.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.core.GrantedAuthority;

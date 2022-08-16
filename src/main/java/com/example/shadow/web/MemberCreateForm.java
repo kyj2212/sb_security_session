@@ -1,4 +1,4 @@
-package com.example.shadow.member;
+package com.example.shadow.web;
 
 import lombok.Getter;
 import lombok.Setter;

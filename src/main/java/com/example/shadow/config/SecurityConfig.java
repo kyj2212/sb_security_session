@@ -1,6 +1,6 @@
-package com.example.shadow;
+package com.example.shadow.config;
 
-import com.example.shadow.member.MemberSecurityService;
+import com.example.shadow.service.MemberSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,7 +1,8 @@
-package com.example.shadow.member;
+package com.example.shadow.service;
 
+import com.example.shadow.domain.member.Member;
+import com.example.shadow.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Member create(String member_name,String id, String member_pwd, String member_email, Boolean member_login_status) {
+    public Member create(String member_name, String id, String member_pwd, String member_email, Boolean member_login_status) {
         Member member = new Member();
         member.setMemberName(member_name);
         member.setMemberId(id);

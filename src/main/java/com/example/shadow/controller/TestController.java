@@ -1,4 +1,4 @@
-package com.example.shadow;
+package com.example.shadow.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

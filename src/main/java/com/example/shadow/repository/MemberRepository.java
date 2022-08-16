@@ -1,5 +1,6 @@
-package com.example.shadow.member;
+package com.example.shadow.repository;
 
+import com.example.shadow.domain.member.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
