@@ -15,7 +15,6 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/member")
 public class MemberController {
 
     private final MemberService memberService;
@@ -31,8 +30,8 @@ public class MemberController {
             return "signup_form";
         }
 
-        System.out.println("pw1 : " + memberCreateForm.getMemberPwd1() + " pw2 : " + memberCreateForm.getMemberPwd2());
-        if (!memberCreateForm.getMemberPwd1().equals(memberCreateForm.getMemberPwd2())) {
+        System.out.println("pw1 : " + memberCreateForm.getPassword1() + " pw2 : " + memberCreateForm.getPassword2());
+        if (!memberCreateForm.getPassword1().equals(memberCreateForm.getPassword2())) {
             bindingResult.rejectValue("memberPwd2", "passwordInCorrect",
                     "2개의 패스워드가 일치하지 않습니다.");
             return "signup_form";
@@ -40,11 +39,10 @@ public class MemberController {
 
         try {
             memberService.create(
-                    memberCreateForm.getMemberName(),
-                    memberCreateForm.getMemberId(),
-                    memberCreateForm.getMemberPwd1(),
-                    memberCreateForm.getMemberEmail(),
-                    false);
+                    memberCreateForm.getName(),
+                    memberCreateForm.getUsername(),
+                    memberCreateForm.getPassword1(),
+                    memberCreateForm.getEmail());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");

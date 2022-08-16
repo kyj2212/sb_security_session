@@ -13,13 +13,12 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public Member create(String member_name, String id, String member_pwd, String member_email, Boolean member_login_status) {
+    public Member create(String name, String username, String password, String email) {
         Member member = new Member();
-        member.setMemberName(member_name);
-        member.setMemberId(id);
-        member.setMemberPwd(passwordEncoder.encode(member_pwd));
-        member.setMemberEmail(member_email);
-        member.setMemberLoginStatus(member_login_status);
+        member.updateName(name);
+        member.updateUsername(username);
+        member.setEncryptedPassword(passwordEncoder.encode(password));
+        member.updateEmail(email);
         this.memberRepository.save(member);
         return member;
     }
