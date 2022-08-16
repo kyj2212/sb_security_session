@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_WHITELIST_STATIC = {"/static/css/**", "/static/js/**", "/assert/*.ico"};
     private static final String[] AUTH_ADMIN_LIST = {"/admin"};
-    private static final String[] AUTH_ALL_LIST = {"/main/index", "/test"};
+    private static final String[] AUTH_ALL_LIST = {"/test"};
     private static final String[] AUTH_AUTHENTICATED_LIST = {"/shadows/**", "/flowcharts/**", "/main/**"};
 
     private final MemberSecurityService memberSecurityService;
@@ -44,24 +44,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers(AUTH_ADMIN_LIST).hasRole("ROLE_ADMIN")
-                .antMatchers(AUTH_AUTHENTICATED_LIST).authenticated()
-                .antMatchers(AUTH_ALL_LIST).permitAll()
-            .and()
-                .csrf().ignoringAntMatchers("/h2-console/**")
-            .and()
-                .headers()
-                .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
-            .and()
-                .formLogin()
-                .loginPage("/member/login")
-                .successHandler(customSuccessHandler())
-            .and()
-                .logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                .logoutSuccessUrl("/")
-                .invalidateHttpSession(true)
-        ;
+            .antMatchers(AUTH_ADMIN_LIST).hasRole("ROLE_ADMIN")
+            .antMatchers(AUTH_AUTHENTICATED_LIST).authenticated()
+            .antMatchers(AUTH_ALL_LIST).permitAll();
+        http
+            .csrf().ignoringAntMatchers("/h2-console/**");
+        http
+            .headers()
+            .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN));
+        http
+            .formLogin()
+            .loginPage("/login")
+            .successHandler(customSuccessHandler());
+        http
+            .logout()
+            .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+            .logoutSuccessUrl("/test")
+            .invalidateHttpSession(true);
+        http
+            .exceptionHandling()
+            .accessDeniedPage("/restrict");
 
     }
 
