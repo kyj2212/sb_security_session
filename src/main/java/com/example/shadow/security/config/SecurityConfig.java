@@ -1,5 +1,7 @@
-package com.example.shadow.config;
+package com.example.shadow.security.config;
 
+import com.example.shadow.security.handler.CustomFailureHandler;
+import com.example.shadow.security.handler.CustomSuccessHandler;
 import com.example.shadow.service.MemberSecurityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -24,11 +27,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final String[] AUTH_WHITELIST_STATIC = {"/static/css/**", "/static/js/**", "/assert/*.ico"};
     private static final String[] AUTH_ADMIN_LIST = {"/admin"};
-    private static final String[] AUTH_ALL_LIST = {"/test"};
+    private static final String[] AUTH_ALL_LIST = {"/main/index", "/test"};
     private static final String[] AUTH_AUTHENTICATED_LIST = {"/shadows/**", "/flowcharts/**", "/main/**"};
 
     private final MemberSecurityService memberSecurityService;
-    private final AuthenticationFailureHandler customFailureHandler;
 
 
     @Override
@@ -43,8 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers(AUTH_ADMIN_LIST).hasRole("ROLE_ADMIN")
-                .antMatchers(AUTH_ALL_LIST).authenticated()
-                .antMatchers(AUTH_AUTHENTICATED_LIST).permitAll()
+                .antMatchers(AUTH_AUTHENTICATED_LIST).authenticated()
+                .antMatchers(AUTH_ALL_LIST).permitAll()
             .and()
                 .csrf().ignoringAntMatchers("/h2-console/**")
             .and()
@@ -53,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
                 .formLogin()
                 .loginPage("/member/login")
-                .defaultSuccessUrl("/")
+                .successHandler(customSuccessHandler())
             .and()
                 .logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
@@ -62,6 +64,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         ;
 
     }
+
+    @Bean
+    public AuthenticationSuccessHandler customSuccessHandler(){
+        return new CustomSuccessHandler("/");
+    }
+    @Bean
+    public AuthenticationFailureHandler customFailureHandler(){
+        return new CustomFailureHandler();
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
