@@ -11,7 +11,8 @@ import javax.persistence.*;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본생성자 제한으로 누락 방지
+@NoArgsConstructor
+//@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본생성자 제한으로 누락 방지
 @EntityListeners(AuditingEntityListener.class) // entity crud 전, 후 이벤트 처리
 @Table(name = "member_tbl")
 public class Member {
