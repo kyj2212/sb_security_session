@@ -42,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers(AUTH_ADMIN_LIST).hasRole("ROLE_ADMIN")
+            .antMatchers(AUTH_ADMIN_LIST).hasRole("ADMIN")
             .antMatchers(AUTH_AUTHENTICATED_LIST).authenticated()
             .antMatchers(AUTH_ALL_LIST).permitAll();
         http
@@ -76,17 +76,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationSuccessHandler customSuccessHandler(){
         return new CustomSuccessHandler("/");
     }
-    @Bean
-    public AuthenticationFailureHandler customFailureHandler(){
-        return new CustomFailureHandler();
-    }
+
+//    @Bean
+//    public AuthenticationFailureHandler customFailureHandler(){
+//        return new CustomFailureHandler();
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-
 
 }
