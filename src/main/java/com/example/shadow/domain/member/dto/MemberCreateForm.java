@@ -1,4 +1,4 @@
-package com.example.shadow.web;
+package com.example.shadow.domain.member.dto;
 
 import lombok.Getter;
 import lombok.Setter;
